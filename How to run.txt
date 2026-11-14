@@ -1,0 +1,34 @@
+DigiGriD web portal
+====================
+
+1. Install dependencies:
+   python -m pip install -r requirements.txt
+
+2. Configure real email delivery before starting the server. In PowerShell:
+   $env:DIGIGRID_SMTP_HOST = "smtp.gmail.com"
+   $env:DIGIGRID_SMTP_PORT = "587"
+   $env:DIGIGRID_SMTP_USERNAME = "your-email@example.com"
+   $env:DIGIGRID_SMTP_PASSWORD = "your-provider-app-password"
+   $env:DIGIGRID_SMTP_FROM = "your-email@example.com"
+
+   For an SSL SMTP provider (usually port 465), also set:
+   $env:DIGIGRID_SMTP_PORT = "465"
+   $env:DIGIGRID_SMTP_USE_SSL = "true"
+
+   Use an app password or SMTP token. Do not put a normal account password
+   in this file or commit it to source control.
+
+3. Optional: put writable application data on a persistent server volume:
+   $env:DIGIGRID_DATA_DIR = "C:\path\to\digigrid-data"
+
+4. Start the web server:
+   python -m streamlit run DigiGriD_MAIN_CODE.py --server.address 0.0.0.0 --server.port 8501
+
+5. Open http://localhost:8501 on the server itself, or
+   http://SERVER_IP:8501 from another device. Allow TCP port 8501 in the
+   server firewall/security group if remote access is required.
+
+The application now sends every notification through SMTP and records a copy
+in the "Demo: email outbox" page. If SMTP variables are missing or invalid,
+the action fails with an explicit email-delivery error instead of pretending
+that the message was sent.
