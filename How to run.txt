@@ -18,6 +18,21 @@ DigiGriD web portal
    Use an app password or SMTP token. Do not put a normal account password
    in this file or commit it to source control.
 
+   On Streamlit Cloud, add the same values in Manage app > Settings > Secrets
+   using TOML syntax:
+   DIGIGRID_SMTP_HOST = "smtp.gmail.com"
+   DIGIGRID_SMTP_PORT = "587"
+   DIGIGRID_SMTP_USERNAME = "your-email@gmail.com"
+   DIGIGRID_SMTP_PASSWORD = "your-provider-app-password"
+   DIGIGRID_SMTP_FROM = "your-email@gmail.com"
+   DIGIGRID_SMTP_USE_SSL = "false"
+
+   If the workflow should notify real institute addresses, also configure:
+   DIGIGRID_GRIEVANCE_EMAIL = "grievance@example.com"
+   DIGIGRID_DISCIPLINE_EMAIL = "discipline@example.com"
+   DIGIGRID_DIRECTOR_EMAIL = "director@example.com"
+   DIGIGRID_OMBUDS_EMAIL = "ombuds@example.com"
+
 3. Optional: put writable application data on a persistent server volume:
    $env:DIGIGRID_DATA_DIR = "C:\path\to\digigrid-data"
 

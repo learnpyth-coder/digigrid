@@ -5,9 +5,24 @@ This module contains constants and configuration settings for the DigiGriD appli
 import os
 from pathlib import Path
 
+import streamlit as st
+from streamlit.errors import StreamlitSecretNotFoundError
+
+
+def _setting(name, default=""):
+    value = os.getenv(name)
+    if value is not None:
+        return value
+
+    try:
+        return st.secrets.get(name, default)
+    except StreamlitSecretNotFoundError:
+        return default
+
+
 # Define constants for file names, separators, time formats, email addresses, time limits, word limits, case types, user accounts, case statuses, and case fields
 BASE_DIR = Path(__file__).resolve().parent
-DATA_DIR = Path(os.getenv("DIGIGRID_DATA_DIR", str(BASE_DIR)))
+DATA_DIR = Path(_setting("DIGIGRID_DATA_DIR", str(BASE_DIR)))
 DATA_DIR.mkdir(parents=True, exist_ok=True)
 
 CASES_FILE = str(DATA_DIR / "digigrid_cases.txt")
@@ -19,19 +34,19 @@ TIME_FMT = "%Y-%m-%d %H:%M:%S"
 SHOW_FMT = "%d-%m-%Y %H:%M"
 
 # SMTP settings. Keep credentials in the server environment, never in source code.
-SMTP_HOST = os.getenv("DIGIGRID_SMTP_HOST", "")
-SMTP_PORT = int(os.getenv("DIGIGRID_SMTP_PORT", "587"))
-SMTP_USERNAME = os.getenv("DIGIGRID_SMTP_USERNAME", "")
-SMTP_PASSWORD = os.getenv("DIGIGRID_SMTP_PASSWORD", "")
-SMTP_FROM = os.getenv("DIGIGRID_SMTP_FROM", SMTP_USERNAME)
-SMTP_USE_SSL = os.getenv("DIGIGRID_SMTP_USE_SSL", "false").lower() == "true"
-SMTP_TIMEOUT = int(os.getenv("DIGIGRID_SMTP_TIMEOUT", "30"))
+SMTP_HOST = _setting("DIGIGRID_SMTP_HOST")
+SMTP_PORT = int(_setting("DIGIGRID_SMTP_PORT", "587"))
+SMTP_USERNAME = _setting("DIGIGRID_SMTP_USERNAME")
+SMTP_PASSWORD = _setting("DIGIGRID_SMTP_PASSWORD")
+SMTP_FROM = _setting("DIGIGRID_SMTP_FROM", SMTP_USERNAME)
+SMTP_USE_SSL = _setting("DIGIGRID_SMTP_USE_SSL", "false").lower() == "true"
+SMTP_TIMEOUT = int(_setting("DIGIGRID_SMTP_TIMEOUT", "30"))
 
 # Institute email IDs (from the workflow)
-GRIEVANCE_EMAIL = os.getenv("DIGIGRID_GRIEVANCE_EMAIL", "grievance_cell@xxxx.ac.in")
-DISCIPLINE_EMAIL = os.getenv("DIGIGRID_DISCIPLINE_EMAIL", "discipline_comm@xxxx.ac.in")
-DIRECTOR_EMAIL = os.getenv("DIGIGRID_DIRECTOR_EMAIL", "director@xxxx.ac.in")
-OMBUDS_EMAIL = os.getenv("DIGIGRID_OMBUDS_EMAIL", "ext_person@gmail.com")
+GRIEVANCE_EMAIL = _setting("DIGIGRID_GRIEVANCE_EMAIL", "grievance_cell@xxxx.ac.in")
+DISCIPLINE_EMAIL = _setting("DIGIGRID_DISCIPLINE_EMAIL", "discipline_comm@xxxx.ac.in")
+DIRECTOR_EMAIL = _setting("DIGIGRID_DIRECTOR_EMAIL", "director@xxxx.ac.in")
+OMBUDS_EMAIL = _setting("DIGIGRID_OMBUDS_EMAIL", "ext_person@gmail.com")
 
 # Time limits for various stages of the case workflow (in minutes for demonstration purposes)
 # for the sake of demonstration, kept all as "x" minute using fractions
