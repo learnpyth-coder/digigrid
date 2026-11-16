@@ -73,7 +73,7 @@ CASE_TYPES = ("Discrimination", "Academic Misconduct")
 # Accounts: (email ID, password, role, display name)
 # Everyone logs in using their email ID
 USERS = (
-    ("complainant1@xxxx.ac.in", "pass123", "Complainant", "Demo Student One"),
+    ("mewanzbwar@gmail.com", "pass123", "Complainant", "Demo Student One"),
     ("complainant2@xxxx.ac.in", "pass456", "Complainant", "Demo Student Two"),
     (GRIEVANCE_EMAIL, "grv123", "Grievance Cell", "Grievance Cell"),
     (DISCIPLINE_EMAIL, "disc123", "Disciplinary Committee", "Disciplinary Committee"),
