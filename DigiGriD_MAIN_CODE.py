@@ -60,7 +60,7 @@ def login_page():
         else:
             st.session_state.user = user # Call the session_state object from streamlit to store the logged-in user's information for use in other pages of the application
             st.rerun() # Call the rerun function from streamlit to refresh the page and redirect the user to the appropriate page based on their role after successful login
-    st.caption("Demo accounts - complainants: complainant1@xxxx.ac.in / pass123, complainant2@xxxx.ac.in / pass456. "
+    st.caption("Demo accounts - complainants: mewanzbwar@gmail.com / pass123, complainant2@xxxx.ac.in / pass456. "
                "Cell: grievance_cell@xxxx.ac.in / grv123. "
                "Committee: discipline_comm@xxxx.ac.in / disc123. "
                "Director: director@xxxx.ac.in / dir123. "
