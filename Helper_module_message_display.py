@@ -44,12 +44,10 @@ def show_case_readonly(case, show_complainant=True, show_respondent=True,
                      + " | " + get(case, "r_contact"))
         else:
             st.write("**Respondent:** not identified by the complainant")
-    # if show_evidence:
-    #     if get(case, "evidence_available") == "Yes":
-    #         st.write("**Evidence submitted:**")
-    #         st.info(read_text("evidence", cid))
-    #     else:
-    #         st.write("**Evidence:** none submitted")
+            description = read_text("description", cid)
+            if description != "":
+                st.write("**Description of the respondent's appearance:**")
+                st.info(description)
     if show_evidence:
         if get(case, "evidence_available") == "Yes":
             st.write("**Evidence submitted:**")
