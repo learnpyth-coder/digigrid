@@ -73,7 +73,8 @@ CASE_TYPES = ("Discrimination", "Academic Misconduct")
 USERS = (
     ("mewanzbwar@gmail.com", "pass123", "Complainant", "Demo Student One"),
     ("complainant2@xxxx.ac.in", "pass456", "Complainant", "Demo Student Two"),
-    (GRIEVANCE_EMAIL, "grv123", "Grievance Cell", "Grievance Cell"),
+    #(GRIEVANCE_EMAIL, "grv123", "Grievance Cell", "Grievance Cell"),
+    ("dggrievance.cell@gmail.com", "grv123", "Grievance Cell", "Grievance Cell"),
     (DISCIPLINE_EMAIL, "disc123", "Disciplinary Committee", "Disciplinary Committee"),
     (DIRECTOR_EMAIL, "dir123", "Director", "Director of the Institute"),
     (OMBUDS_EMAIL, "omb123", "Ombudsperson", "Ombudsperson"),
