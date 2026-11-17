@@ -41,10 +41,10 @@ SMTP_USE_SSL = _setting("DIGIGRID_SMTP_USE_SSL", "false").lower() == "true"
 SMTP_TIMEOUT = int(_setting("DIGIGRID_SMTP_TIMEOUT", "30"))
 
 # Institute email IDs (from the workflow)
-GRIEVANCE_EMAIL = _setting("DIGIGRID_GRIEVANCE_EMAIL", "dggrievance.cell@gmail.com")
-DISCIPLINE_EMAIL = _setting("DIGIGRID_DISCIPLINE_EMAIL", "discipline_comm@xxxx.ac.in")
-DIRECTOR_EMAIL = _setting("DIGIGRID_DIRECTOR_EMAIL", "war.mewanb@gmail.com")
-OMBUDS_EMAIL = _setting("DIGIGRID_OMBUDS_EMAIL", "ext_person@gmail.com")
+# GRIEVANCE_EMAIL = _setting("DIGIGRID_GRIEVANCE_EMAIL", "dggrievance.cell@gmail.com")
+# DISCIPLINE_EMAIL = _setting("DIGIGRID_DISCIPLINE_EMAIL", "discipline_comm@xxxx.ac.in")
+# DIRECTOR_EMAIL = _setting("DIGIGRID_DIRECTOR_EMAIL", "war.mewanb@gmail.com")
+# OMBUDS_EMAIL = _setting("DIGIGRID_OMBUDS_EMAIL", "ext_person@gmail.com")
 
 # Time limits for various stages of the case workflow (in minutes for demonstration purposes)
 # for the sake of demonstration, kept all as "x" minute using fractions
@@ -73,11 +73,14 @@ CASE_TYPES = ("Discrimination", "Academic Misconduct")
 USERS = (
     ("mewanzbwar@gmail.com", "pass123", "Complainant", "Demo Student One"),
     ("complainant2@xxxx.ac.in", "pass456", "Complainant", "Demo Student Two"),
-    #(GRIEVANCE_EMAIL, "grv123", "Grievance Cell", "Grievance Cell"),
+    # (GRIEVANCE_EMAIL, "grv123", "Grievance Cell", "Grievance Cell"), - a bug
     ("dggrievance.cell@gmail.com", "grv123", "Grievance Cell", "Grievance Cell"),
-    (DISCIPLINE_EMAIL, "disc123", "Disciplinary Committee", "Disciplinary Committee"),
-    (DIRECTOR_EMAIL, "dir123", "Director", "Director of the Institute"),
-    (OMBUDS_EMAIL, "omb123", "Ombudsperson", "Ombudsperson"),
+    # (DISCIPLINE_EMAIL, "disc123", "Disciplinary Committee", "Disciplinary Committee"), - a bug
+    ("discipline_comm@xxxx.ac.in", "disc123", "Disciplinary Committee", "Disciplinary Committee"),
+    # (DIRECTOR_EMAIL, "dir123", "Director", "Director of the Institute"), - a bug
+    ("war.mewanb@gmail.com", "dir123", "Director", "Director of the Institute"),
+    # (OMBUDS_EMAIL, "omb123", "Ombudsperson", "Ombudsperson"), - a bug
+    ("ext_person@gmail.com", "omb123", "Ombudsperson", "Ombudsperson"),
 )
 
 # Case statuses
