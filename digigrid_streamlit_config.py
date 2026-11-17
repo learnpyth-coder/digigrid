@@ -8,7 +8,6 @@ from pathlib import Path
 import streamlit as st
 from streamlit.errors import StreamlitSecretNotFoundError
 
-
 def _setting(name, default=""):
     value = os.getenv(name)
     if value is not None:
@@ -18,7 +17,6 @@ def _setting(name, default=""):
         return st.secrets.get(name, default)
     except StreamlitSecretNotFoundError:
         return default
-
 
 # Define constants for file names, separators, time formats, email addresses, time limits, word limits, case types, user accounts, case statuses, and case fields
 BASE_DIR = Path(__file__).resolve().parent
@@ -43,9 +41,9 @@ SMTP_USE_SSL = _setting("DIGIGRID_SMTP_USE_SSL", "false").lower() == "true"
 SMTP_TIMEOUT = int(_setting("DIGIGRID_SMTP_TIMEOUT", "30"))
 
 # Institute email IDs (from the workflow)
-GRIEVANCE_EMAIL = _setting("DIGIGRID_GRIEVANCE_EMAIL", "grievance_cell@xxxx.ac.in")
+GRIEVANCE_EMAIL = _setting("DIGIGRID_GRIEVANCE_EMAIL", "dggrievance.cell@gmail.com")
 DISCIPLINE_EMAIL = _setting("DIGIGRID_DISCIPLINE_EMAIL", "discipline_comm@xxxx.ac.in")
-DIRECTOR_EMAIL = _setting("DIGIGRID_DIRECTOR_EMAIL", "director@xxxx.ac.in")
+DIRECTOR_EMAIL = _setting("DIGIGRID_DIRECTOR_EMAIL", "war.mewanb@gmail.com")
 OMBUDS_EMAIL = _setting("DIGIGRID_OMBUDS_EMAIL", "ext_person@gmail.com")
 
 # Time limits for various stages of the case workflow (in minutes for demonstration purposes)

@@ -24,10 +24,9 @@ from digigrid_streamlit_config import (
     SMTP_USERNAME,
 )
 
-
+# Define a class for email delivery errors
 class EmailDeliveryError(RuntimeError):
     """Raised when an email cannot be delivered through the configured SMTP server."""
-
 
 # Deliver the message and retain a copy in the application outbox.
 def send_email(to, subject, body):

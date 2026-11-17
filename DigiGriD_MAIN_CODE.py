@@ -23,7 +23,10 @@ from Helper_module_workflow import set_no_appeal, evaluate_appeal, apply_time_ru
 from Helper_module_message_display import due_line, show_case_readonly, show_deadlines, show_decision, text_box_with_limit, can_answer_appeal, appeal_question
 
 # =====================================================================
-# DigiGriD - Basic structure of the whole workflow (prototype)
+# DigiGriD - The whole working code (no longer a prototype)
+# This code creates a fully functional portal-based system
+# for SC/ST student grievanc/disciplanry management in HEIs
+# integrated with email notifications
 # =====================================================================
 
 # ============================ Case ID ============================
@@ -61,9 +64,9 @@ def login_page():
             st.session_state.user = user # Call the session_state object from streamlit to store the logged-in user's information for use in other pages of the application
             st.rerun() # Call the rerun function from streamlit to refresh the page and redirect the user to the appropriate page based on their role after successful login
     st.caption("Demo accounts - complainants: mewanzbwar@gmail.com / pass123, complainant2@xxxx.ac.in / pass456. "
-               "Cell: grievance_cell@xxxx.ac.in / grv123. "
+               "Cell: dggrievance.cell@gmail.com / grv123. "
                "Committee: discipline_comm@xxxx.ac.in / disc123. "
-               "Director: director@xxxx.ac.in / dir123. "
+               "Director: war.mewanb@gmail.com / dir123. "
                "Ombudsperson: ext_person@gmail.com / omb123. "
                "Respondents get their password by email when summoned "
                "(see 'Demo: email outbox' after logging in).") # Call the caption function from streamlit to display a caption with demo account information for testing purposes
@@ -97,22 +100,21 @@ def register_page(user):
                      index=1, key="knows" + v)
     r_name = r_inst = r_email = r_contact = "" # Initialize variables for respondent details (name, institute ID, email, contact) to empty strings
 
+    r_name = r_inst = r_email = r_contact = ""
+    r_desc = "" # description of the respondent's appearance
+    r_desc_ok = True
+
     if knows == "Yes":
         st.caption("Fill in at least the respondent's name and email ID.")
         r_name = st.text_input("Respondent's name", key="rname" + v)
-        # Enter institute ID first, then email ID
         r_inst = st.text_input("Respondent's Institute ID", key="rinst" + v)
         r_email = st.text_input("Respondent's email ID", key="remail" + v)
         r_contact = st.text_input("Respondent's contact number", key="rcontact" + v)
-
-    # st.subheader("4. Evidence")
-    # has_evidence = st.radio("Is evidence in support of your complaint available?",
-    #                         ("Yes", "No"), index=1, key="hasev" + v)
-    # evidence = ""
-    # evidence_ok = True
-    # if has_evidence == "Yes":
-    #     evidence, evidence_ok = text_box_with_limit( # Call the text_box_with_limit function from Helper_module_message_display to create a text area for entering evidence with a word limit
-    #         "Type in your evidence", WORDS_SHORT, "evidence" + v)
+    else:
+        st.info("Since you do not know the respondent's details, please describe their "
+                "physical appearance. The relevant authority will ask you to meet them to help identify the person.")
+        r_desc, r_desc_ok = text_box_with_limit(
+            "Physical appearance of the respondent", WORDS_SHORT, "rdesc" + v)
 
     st.subheader("4. Evidence")
     has_evidence = st.radio("Is evidence in support of your complaint available?",
@@ -149,11 +151,6 @@ def register_page(user):
                               "or choose 'No'.")
             if r_email.strip() != "" and not valid_email(r_email.strip()):
                 errors.append("The respondent's email ID is not valid.")
-        # if has_evidence == "Yes":
-        #     if evidence.strip() == "":
-        #         errors.append("Type in your evidence, or choose 'No'.")
-        #     elif not evidence_ok:
-        #         errors.append("The evidence is longer than " + str(WORDS_SHORT) + " words.")
         if has_evidence == "Yes":
             if evidence.strip() == "" and len(doc_files) == 0 and len(media_files) == 0:
                 errors.append("Type in your evidence or upload a file, or choose 'No'.")
@@ -165,6 +162,11 @@ def register_page(user):
             for f in media_files:
                 if f.size > MAX_MEDIA_BYTES:
                     errors.append(f.name + " is larger than 100 MB.")
+        if knows == "No":
+            if r_desc.strip() == "":
+                errors.append("Describe the respondent's physical appearance.")
+            elif not r_desc_ok:
+                errors.append("The description is longer than " + str(WORDS_SHORT) + " words.")
 
         if len(errors) > 0:
             for message in errors:
@@ -199,10 +201,10 @@ def register_page(user):
                 if evidence.strip() != "":
                     write_text("evidence", case_id, evidence.strip())
             put(case, "evidence_files", ";".join(stored))
+            if knows == "No":
+                write_text("description", case_id, r_desc.strip()) # This creates description_DGDi001.txt and so on
             cases.append(case)
             save_cases(cases) # Call the save_cases function from Helper_module_file_handling to save the updated list of cases to the cases file
-            # if has_evidence == "Yes":
-            #     write_text("evidence", case_id, evidence.strip())
 
             # Email to the relevant cell / committee
             send_email(authority_email(case_type), # Call the authority_email function to get the email address of the relevant cell/committee based on the case type
@@ -217,6 +219,16 @@ def register_page(user):
             send_email(clean(email), "Your complaint " + case_id + " is registered", # Call the clean function to ensure a cleaned complainant's email ID before sending the confirmation email
                        "Your complaint has been registered with Case ID " + case_id
                        + " on " + show(stamp(filed)) + ".")
+                        # Summon the complainant to the relevant cell/committee if the respondent is unknown
+            if knows == "No":
+                meet_by = stamp(filed + timedelta(days=MEET_DAYS))
+                send_email(clean(email), "Case " + case_id + ": please meet the "
+                           + authority_name(case_type),
+                           "You did not identify the respondent in case " + case_id + ".\n"
+                           "Please meet the " + authority_name(case_type) + " in person "
+                           "by " + show(meet_by) + " so that they can help identify the "
+                           "respondent from your description.\n"
+                           "Bring any further information or evidence you have.")
             st.session_state.last_case_id = case_id # Call the session_state object from streamlit to store the last registered case ID for display on the page
             st.session_state.form_version += 1 # Increment the form version in the session state to reset the form fields for a new complaint registration
             st.rerun() # Call the rerun function from streamlit to refresh the page and display the success message with the registered case ID after successful complaint registration

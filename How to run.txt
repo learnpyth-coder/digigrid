@@ -1,49 +1,7 @@
-DigiGriD web portal
-====================
+1. Go to Terminal. Ensure the folder path is seen.
 
-1. Install dependencies:
-   python -m pip install -r requirements.txt
+2. Type: streamlit run DigiGrid_MAIN_CODE.py.
 
-2. Configure real email delivery before starting the server. In PowerShell:
-   $env:DIGIGRID_SMTP_HOST = "smtp.gmail.com"
-   $env:DIGIGRID_SMTP_PORT = "587"
-   $env:DIGIGRID_SMTP_USERNAME = "your-email@example.com"
-   $env:DIGIGRID_SMTP_PASSWORD = "your-provider-app-password"
-   $env:DIGIGRID_SMTP_FROM = "your-email@example.com"
+3. Press enter.
 
-   For an SSL SMTP provider (usually port 465), also set:
-   $env:DIGIGRID_SMTP_PORT = "465"
-   $env:DIGIGRID_SMTP_USE_SSL = "true"
-
-   Use an app password or SMTP token. Do not put a normal account password
-   in this file or commit it to source control.
-
-   On Streamlit Cloud, add the same values in Manage app > Settings > Secrets
-   using TOML syntax:
-   DIGIGRID_SMTP_HOST = "smtp.gmail.com"
-   DIGIGRID_SMTP_PORT = "587"
-   DIGIGRID_SMTP_USERNAME = "your-email@gmail.com"
-   DIGIGRID_SMTP_PASSWORD = "your-provider-app-password"
-   DIGIGRID_SMTP_FROM = "your-email@gmail.com"
-   DIGIGRID_SMTP_USE_SSL = "false"
-
-   If the workflow should notify real institute addresses, also configure:
-   DIGIGRID_GRIEVANCE_EMAIL = "grievance@example.com"
-   DIGIGRID_DISCIPLINE_EMAIL = "discipline@example.com"
-   DIGIGRID_DIRECTOR_EMAIL = "director@example.com"
-   DIGIGRID_OMBUDS_EMAIL = "ombuds@example.com"
-
-3. Optional: put writable application data on a persistent server volume:
-   $env:DIGIGRID_DATA_DIR = "C:\path\to\digigrid-data"
-
-4. Start the web server:
-   python -m streamlit run DigiGriD_MAIN_CODE.py --server.address 0.0.0.0 --server.port 8501
-
-5. Open http://localhost:8501 on the server itself, or
-   http://SERVER_IP:8501 from another device. Allow TCP port 8501 in the
-   server firewall/security group if remote access is required.
-
-The application now sends every notification through SMTP and records a copy
-in the "Demo: email outbox" page. If SMTP variables are missing or invalid,
-the action fails with an explicit email-delivery error instead of pretending
-that the message was sent.
+4. Streamlit page should appear on your browser. DigiGriD shows up.

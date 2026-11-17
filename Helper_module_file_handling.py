@@ -4,14 +4,7 @@ These functions are used to load and save case data, find specific cases, read a
 '''
 # Import relevant modules
 from Helper_module_basics import get, now
-from digigrid_streamlit_config import (
-    CASES_FILE,
-    DATA_DIR,
-    FIELDS,
-    SEP,
-    USERS,
-    USERS_FILE,
-)
+from digigrid_streamlit_config import CASES_FILE, FIELDS, SEP, USERS, USERS_FILE
 
 # Define a function to load cases from the cases file
 def load_cases():
@@ -43,14 +36,14 @@ def find_case(cases, case_id):
 
 # Define a function to write text to a file with a specific kind and case ID
 def write_text(kind, case_id, text):
-    f = open(DATA_DIR / (kind + "_" + case_id + ".txt"), "w", encoding="utf-8")
+    f = open(kind + "_" + case_id + ".txt", "w")
     f.write(text)
     f.close()
 
 # Define a function to read text from a file with a specific kind and case ID
 def read_text(kind, case_id):
     try:
-        f = open(DATA_DIR / (kind + "_" + case_id + ".txt"), "r", encoding="utf-8")
+        f = open(kind + "_" + case_id + ".txt", "r")
         text = f.read()
         f.close()
         return text
@@ -109,7 +102,7 @@ def safe_filename(name):
 # Save the uploaded evidence file to project folder and return the name it was saved under
 def save_evidence_file(case_id, uploaded, number):
     stored = "evidence_" + case_id + "_" + str(number) + "_" + safe_filename(uploaded.name)
-    f = open(DATA_DIR / stored, "wb") # "wb" = write binary (PDFs, photos, video because they are not plain text, they're raw bytes, so they must be written in binary mode)
+    f = open(stored, "wb") # "wb" = write binary (PDFs, photos, video because they are not plain text, they're raw bytes, so they must be written in binary mode)
     f.write(uploaded.getbuffer()) # Write the uploaded contents into the file. uploaded.getbuffer() gives the raw bytes of what the user uploaded
     # f.write(...) puts them into the new file in the project folder
     f.close()
@@ -119,7 +112,7 @@ def save_evidence_file(case_id, uploaded, number):
 # Use try-except
 def read_file_bytes(stored):
     try:
-        f = open(DATA_DIR / stored, "rb") # "rb" = read binary
+        f = open(stored, "rb") # "rb" = read binary
         data = f.read()
         f.close()
         return data
