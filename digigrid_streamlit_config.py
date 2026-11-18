@@ -48,7 +48,7 @@ SMTP_TIMEOUT = int(_setting("DIGIGRID_SMTP_TIMEOUT", "30"))
 
 # Institute email IDs (from the workflow)
 GRIEVANCE_EMAIL = "dggrievance.cell@gmail.com"
-DISCIPLINE_EMAIL = "discipline_comm@xxxx.ac.in"
+DISCIPLINE_EMAIL = "mewan.banshan@research.iiit.ac.in"
 DIRECTOR_EMAIL = "war.mewanb@gmail.com"
 OMBUDS_EMAIL = "ext_person@gmail.com"
 
