@@ -25,7 +25,7 @@ from Helper_module_message_display import due_line, show_case_readonly, show_dea
 # =====================================================================
 # DigiGriD - The whole working code (no longer a prototype)
 # This code creates a fully functional portal-based system
-# for SC/ST student grievanc/disciplanry management in HEIs
+# for SC/ST student grievance/disciplinary management in HEIs
 # integrated with email notifications
 # =====================================================================
 
@@ -65,7 +65,7 @@ def login_page():
             st.rerun() # Call the rerun function from streamlit to refresh the page and redirect the user to the appropriate page based on their role after successful login
     st.caption("Demo accounts - complainants: mewanzbwar@gmail.com / pass123, complainant2@xxxx.ac.in / pass456. "
                "Cell: dggrievance.cell@gmail.com / grv123. "
-               "Committee: discipline_comm@xxxx.ac.in / disc123. "
+               "Committee: mewan.banshan@research.iiit.ac.in / disc123. "
                "Director: war.mewanb@gmail.com / dir123. "
                "Ombudsperson: ext_person@gmail.com / omb123. "
                "Respondents get their password by email when summoned "
